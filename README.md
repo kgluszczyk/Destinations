@@ -1,0 +1,1 @@
+# szkolenie-nysa-2019
