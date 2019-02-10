@@ -1,5 +1,6 @@
 package com.kgluszczyk.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,6 +21,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 Toast.makeText(MainActivity.this, "Klinkąłem na tytuł: " + ((TextView)v).getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        findViewById(R.id.wersja).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Intent intent = new Intent(MainActivity.this, WersjaActivity.class);
+                startActivity(intent);
             }
         });
     }
