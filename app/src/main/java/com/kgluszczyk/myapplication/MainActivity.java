@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             public void onClick(final View v) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(android.R.id.content, ItemFragment.newInstance(1))
+                        .replace(R.id.lista_kontener, ItemFragment.newInstance(1))
                         .commit();
             }
         });

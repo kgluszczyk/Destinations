@@ -10,21 +10,30 @@
         android:id="@+id/tytuł"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:text="@string/title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/lista_kontener"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/wersja"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tytuł" />
+
     <TextView
         android:id="@+id/wersja"
+        style="@style/AppThemeInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/wersja"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        style="@style/AppThemeInfo"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/wersja"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
