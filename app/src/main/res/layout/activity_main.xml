@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:text="@string/wersja"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        style="@style/AppThemeInfo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
