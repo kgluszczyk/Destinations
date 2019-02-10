@@ -15,6 +15,7 @@ public class WersjaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wersja);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        myToolbar.setTitle(getResources().getString(R.string.wersja_name));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
