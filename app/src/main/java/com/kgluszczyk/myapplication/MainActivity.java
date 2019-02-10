@@ -24,7 +24,10 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             public void onClick(final View v) {
                 getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                                android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .replace(R.id.lista_kontener, ItemFragment.newInstance(1))
+                        .addToBackStack(null)
                         .commit();
             }
         });
