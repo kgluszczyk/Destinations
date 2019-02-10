@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.kgluszczyk.myapplication.ItemFragment.OnListFragmentInteractionListener;
+import com.kgluszczyk.myapplication.dummy.DummyContent.DummyItem;
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +22,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tytuł).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Toast.makeText(MainActivity.this, "Klinkąłem na tytuł: " + ((TextView)v).getText(), Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(android.R.id.content, ItemFragment.newInstance(1))
+                        .commit();
             }
         });
 
@@ -31,5 +36,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onListFragmentInteraction(final DummyItem item) {
+        Toast.makeText(MainActivity.this, "Klinkąłem na element: " + item.id, Toast.LENGTH_SHORT).show();
     }
 }
