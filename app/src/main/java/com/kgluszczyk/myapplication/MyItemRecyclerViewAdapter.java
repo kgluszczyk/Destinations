@@ -3,8 +3,13 @@ package com.kgluszczyk.myapplication;
 import android.graphics.Bitmap;
 import android.provider.MediaStore.Images.Media;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -122,14 +127,41 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
             this.mItem = mItem;
-            mView.setOnClickListener(new View.OnClickListener() {
+            final GestureDetector gestureDetector = new GestureDetector(mView.getContext(), new SimpleOnGestureListener() {
+
                 @Override
-                public void onClick(View v) {
-                    if (null != mListener) {
-                        // Notify the active callbacks interface (the activity, if the
-                        // fragment is attached to one) that an item has been selected.
+                public boolean onDown(MotionEvent event) {
+                    Log.d("TAG", "onDown: " + event.toString());
+                    return true;
+                }
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    Log.i("TAG", "onSingleTapConfirmed: ");
+                    if (mListener != null) {
                         mListener.onListFragmentInteraction(mItem);
                     }
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    Log.i("TAG", "onLongPress: ");
+                    if (mListener != null) {
+                        mListener.onLongClickListener(mItem);
+                    }
+                }
+
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    Log.i("TAG", "onDoubleTap: ");
+                    return true;
+                }
+            });
+            mView.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(final View v, final MotionEvent event) {
+                    return gestureDetector.onTouchEvent(event);
                 }
             });
         }

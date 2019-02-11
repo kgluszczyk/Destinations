@@ -1,14 +1,23 @@
 package com.kgluszczyk.myapplication;
 
+import static android.app.Notification.EXTRA_NOTIFICATION_ID;
+
 import android.Manifest;
 import android.Manifest.permission;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,6 +25,8 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 import com.kgluszczyk.myapplication.ItemFragment.OnListFragmentInteractionListener;
 import com.kgluszczyk.myapplication.dummy.StaticContent;
+import com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem;
+import com.kgluszczyk.myapplication.dummy.StaticContent.UniwersytetListItem;
 import com.kgluszczyk.myapplication.dummy.StaticContent.ZabytekItem;
 
 public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
@@ -24,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     public static final int REQUEST_CODE_CAMERA = 2;
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+    private static final String CHANNEL_ID = "Test kanał";
+    public static final int NOTIFICATION_ID = 0;
     ItemFragment fragment;
     private ZabytekItem itemSelectedPhoto;
 
@@ -35,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             @Override
             public void onClick(final View v) {
                 fragment = ItemFragment.newInstance(1);
+                createNotificationChannel();
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
@@ -102,6 +116,51 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             askForPermission();
         } else {
             Toast.makeText(MainActivity.this, "Klinkąłem na element: " + item.getItem(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onLongClickListener(final BazowyListItem item) {
+        if (item instanceof UniwersytetListItem) {
+            UniwersytetListItem uniwersytetListItem = (UniwersytetListItem) item;
+
+            Intent snoozeIntent = new Intent(this, MyReceiver.class);
+            snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, NOTIFICATION_ID);
+
+            PendingIntent snoozePendingIntent =
+                    PendingIntent.getBroadcast(this, 0, snoozeIntent, 0);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, PokazFilmlActivity.class), 0);
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_place_black_24dp)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                            uniwersytetListItem.logo))
+                    .setContentTitle(uniwersytetListItem.content)
+                    .setContentText(uniwersytetListItem.details)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .addAction(R.drawable.ic_place_black_24dp, "Odpal broadcasta",
+                            snoozePendingIntent);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        }
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Informacje o uniwersytetach";
+            String description = "Bardzo istotne informacej";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 

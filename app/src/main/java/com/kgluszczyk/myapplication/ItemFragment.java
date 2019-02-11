@@ -94,5 +94,6 @@ public class ItemFragment extends Fragment {
     }
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(StaticContent.BazowyListItem item);
+        void onLongClickListener(StaticContent.BazowyListItem item);
     }
 }
