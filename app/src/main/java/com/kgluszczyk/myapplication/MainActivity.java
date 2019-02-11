@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         findViewById(R.id.tytuł).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {

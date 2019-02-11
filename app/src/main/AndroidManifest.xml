@@ -12,12 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeInfo">
         <receiver
-            android:name=".MyReceiver"
-            android:enabled="true"
-            android:exported="true">
+            android:name=".MyReceiver">
 
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.kgluszczyk.myapplication.NOTIFICATION_CLOSER" />
             </intent-filter>
         </receiver>
 
