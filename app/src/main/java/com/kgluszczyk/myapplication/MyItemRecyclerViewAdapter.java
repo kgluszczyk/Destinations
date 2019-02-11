@@ -4,46 +4,46 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.kgluszczyk.myapplication.ItemFragment.OnListFragmentInteractionListener;
-import com.kgluszczyk.myapplication.dummy.DummyContent.DummyItem;
-
+import com.kgluszczyk.myapplication.dummy.StaticContent;
+import com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem;
+import com.kgluszczyk.myapplication.dummy.StaticContent.ListItemType;
+import com.kgluszczyk.myapplication.dummy.StaticContent.UniwersytetListItem;
+import com.kgluszczyk.myapplication.dummy.StaticContent.ZabytekItem;
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.BaseViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<StaticContent.BazowyListItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<BazowyListItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
-        return new ViewHolder(view);
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ListItemType.UNIWERSYTET.ordinal()) {
+            return new UniwersytetViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.uniwersytet_element, parent, false));
+        } else if (viewType == ListItemType.ZABYTEK.ordinal()) {
+            return new ZabytekViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.zabytek_element, parent, false));
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final BaseViewHolder holder, int position) {
+        holder.bind(mValues.get(position), mListener);
+    }
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+    @Override
+    public int getItemViewType(final int position) {
+        return mValues.get(position).getItem().ordinal();
     }
 
     @Override
@@ -51,22 +51,72 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+    public class UniwersytetViewHolder extends BaseViewHolder {
+        public final TextView title;
+        public final TextView description;
+        public final ImageView logo;
 
-        public ViewHolder(View view) {
+        public UniwersytetViewHolder(View view) {
+            super(view);
+            title = view.findViewById(R.id.title);
+            description = view.findViewById(R.id.description);
+            logo = view.findViewById(R.id.logo);
+        }
+
+        @Override
+        public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
+            super.bind(mItem, mListener);
+            if (mItem instanceof UniwersytetListItem) {
+                title.setText(((UniwersytetListItem) mItem).content);
+                description.setText(((UniwersytetListItem) mItem).details);
+                logo.setImageDrawable(logo.getContext().getResources().getDrawable(((UniwersytetListItem) mItem).logo));
+            }
+        }
+    }
+
+    public class ZabytekViewHolder extends BaseViewHolder {
+        public final ImageView logo;
+
+        public ZabytekViewHolder(View view) {
+            super(view);
+            logo = view.findViewById(R.id.zabytek_obraz);
+        }
+
+        @Override
+        public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
+            super.bind(mItem, mListener);
+            if (mItem instanceof ZabytekItem) {
+                logo.setImageDrawable(logo.getContext().getResources().getDrawable(((ZabytekItem) mItem).logo));
+            }
+        }
+    }
+
+    public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
+        public StaticContent.BazowyListItem mItem;
+
+        public BaseViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mItem + "'";
+        }
+
+        public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
+            this.mItem = mItem;
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != mListener) {
+                        // Notify the active callbacks interface (the activity, if the
+                        // fragment is attached to one) that an item has been selected.
+                        mListener.onListFragmentInteraction(mItem);
+                    }
+                }
+            });
         }
     }
 }

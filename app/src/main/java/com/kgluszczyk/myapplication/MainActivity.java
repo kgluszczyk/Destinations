@@ -2,17 +2,12 @@ package com.kgluszczyk.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.kgluszczyk.myapplication.ItemFragment.OnListFragmentInteractionListener;
-import com.kgluszczyk.myapplication.dummy.DummyContent.DummyItem;
-import org.w3c.dom.Text;
+import com.kgluszczyk.myapplication.dummy.StaticContent;
 
 public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
     @Override
@@ -42,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     }
 
     @Override
-    public void onListFragmentInteraction(final DummyItem item) {
-        Toast.makeText(MainActivity.this, "Klinkąłem na element: " + item.id, Toast.LENGTH_SHORT).show();
+    public void onListFragmentInteraction(final StaticContent.BazowyListItem item) {
+        Toast.makeText(MainActivity.this, "Klinkąłem na element: " + item.getItem(), Toast.LENGTH_SHORT).show();
     }
 }
