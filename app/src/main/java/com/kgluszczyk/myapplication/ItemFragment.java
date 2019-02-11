@@ -24,6 +24,7 @@ public class ItemFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private MyItemRecyclerViewAdapter adapter;
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -76,9 +77,14 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(StaticContent.ITEMS, mListener));
+            adapter = new MyItemRecyclerViewAdapter(StaticContent.ITEMS, mListener);
+            recyclerView.setAdapter(adapter);
         }
         return view;
+    }
+
+    public MyItemRecyclerViewAdapter getAdapter() {
+        return adapter;
     }
 
     @Override

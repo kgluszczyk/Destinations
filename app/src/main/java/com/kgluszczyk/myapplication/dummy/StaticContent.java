@@ -3,6 +3,8 @@ package com.kgluszczyk.myapplication.dummy;
 import static com.kgluszczyk.myapplication.dummy.StaticContent.ListItemType.UNIWERSYTET;
 import static com.kgluszczyk.myapplication.dummy.StaticContent.ListItemType.ZABYTEK;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import com.kgluszczyk.myapplication.R;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class StaticContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<StaticContent.BazowyListItem> ITEMS = new ArrayList<com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem>(){{
+    public static final List<StaticContent.BazowyListItem> ITEMS = new ArrayList<com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem>() {{
         add(new ZabytekItem(R.drawable.zabytek_1));
         add(new UniwersytetListItem(R.drawable.po, "Politechnika Opolska", "Założona w ..."));
         add(new ZabytekItem(R.drawable.zabytek_2));
@@ -53,10 +55,30 @@ public class StaticContent {
     public static class ZabytekItem extends com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem {
         public final @DrawableRes
         int logo;
+        private Uri uri;
+        private Bitmap imageBitmap;
 
         public ZabytekItem(final @DrawableRes int logo) {
             this.logo = logo;
             item = ZABYTEK;
+        }
+
+        public Uri getUri() {
+            return uri;
+        }
+
+        public void setUri(final Uri data) {
+            this.uri = data;
+            imageBitmap = null;
+        }
+
+        public void setBitmap(final Bitmap imageBitmap) {
+            this.imageBitmap = imageBitmap;
+            uri = null;
+        }
+
+        public Bitmap getImageBitmap() {
+            return imageBitmap;
         }
     }
 

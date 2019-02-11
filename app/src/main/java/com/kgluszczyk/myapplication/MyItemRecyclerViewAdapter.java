@@ -1,5 +1,7 @@
 package com.kgluszczyk.myapplication;
 
+import android.graphics.Bitmap;
+import android.provider.MediaStore.Images.Media;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem;
 import com.kgluszczyk.myapplication.dummy.StaticContent.ListItemType;
 import com.kgluszczyk.myapplication.dummy.StaticContent.UniwersytetListItem;
 import com.kgluszczyk.myapplication.dummy.StaticContent.ZabytekItem;
+import java.io.IOException;
 import java.util.List;
 
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.BaseViewHolder> {
@@ -86,7 +89,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
             super.bind(mItem, mListener);
             if (mItem instanceof ZabytekItem) {
-                logo.setImageDrawable(logo.getContext().getResources().getDrawable(((ZabytekItem) mItem).logo));
+                Bitmap bitmap = ((ZabytekItem) mItem).getImageBitmap();
+                if (((ZabytekItem) mItem).getUri() != null) {
+                    try {
+                        bitmap = Media.getBitmap(logo.getContext().getContentResolver(), ((ZabytekItem) mItem).getUri());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (bitmap != null) {
+                    logo.setImageBitmap(bitmap);
+                } else {
+                    logo.setImageDrawable(logo.getContext().getResources().getDrawable(((ZabytekItem) mItem).logo));
+                }
             }
         }
     }
