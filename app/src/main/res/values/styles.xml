@@ -6,12 +6,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/MyTextViewStyle</item>
     </style>
 
-    <style name="AppThemeInfo" parent="AppTheme">
-        <!-- Customize your theme here. -->
-        <item name="android:background">@color/colorPrimaryDark</item>
+    <style name="AppThemeInfo" parent="AppTheme"></style>
+
+    <style name="MyTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
 </resources>
