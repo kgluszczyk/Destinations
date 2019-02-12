@@ -24,10 +24,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 import com.kgluszczyk.myapplication.ItemFragment.OnListFragmentInteractionListener;
-import com.kgluszczyk.myapplication.dummy.StaticContent;
-import com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem;
-import com.kgluszczyk.myapplication.dummy.StaticContent.UniwersytetListItem;
-import com.kgluszczyk.myapplication.dummy.StaticContent.ZabytekItem;
+import com.kgluszczyk.myapplication.dummy.ListItemsFactory.BaseListItem;
+import com.kgluszczyk.myapplication.dummy.ListItemsFactory.DestinationListItem;
+import com.kgluszczyk.myapplication.dummy.ListItemsFactory.Country;
 
 public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
 
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     private static final String CHANNEL_ID = "Test kanał";
     public static final int NOTIFICATION_ID = 0;
     ItemFragment fragment;
-    private ZabytekItem itemSelectedPhoto;
+    private Country itemSelectedPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +110,9 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     }
 
     @Override
-    public void onListFragmentInteraction(final StaticContent.BazowyListItem item) {
-        if (item instanceof ZabytekItem) {
-            itemSelectedPhoto = (ZabytekItem) item;
+    public void onListFragmentInteraction(final BaseListItem item) {
+        if (item instanceof Country) {
+            itemSelectedPhoto = (Country) item;
             askForPermission();
         } else {
             Toast.makeText(MainActivity.this, "Klinkąłem na element: " + item.getItem(), Toast.LENGTH_SHORT).show();
@@ -121,9 +120,9 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     }
 
     @Override
-    public void onLongClickListener(final BazowyListItem item) {
-        if (item instanceof UniwersytetListItem) {
-            UniwersytetListItem uniwersytetListItem = (UniwersytetListItem) item;
+    public void onLongClickListener(final BaseListItem item) {
+        if (item instanceof DestinationListItem) {
+            DestinationListItem uniwersytetListItem = (DestinationListItem) item;
 
             Intent snoozeIntent = new Intent(this, MyReceiver.class);
             snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, NOTIFICATION_ID);
@@ -135,8 +134,6 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_place_black_24dp)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                            uniwersytetListItem.logo))
                     .setContentTitle(uniwersytetListItem.content)
                     .setContentText(uniwersytetListItem.details)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)

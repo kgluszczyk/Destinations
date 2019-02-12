@@ -13,7 +13,7 @@
 
     <style name="MyTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">#80000000</item>
     </style>
 
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">

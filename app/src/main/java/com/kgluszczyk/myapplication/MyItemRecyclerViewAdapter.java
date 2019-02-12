@@ -2,6 +2,7 @@ package com.kgluszczyk.myapplication;
 
 import android.graphics.Bitmap;
 import android.provider.MediaStore.Images.Media;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -14,32 +15,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.kgluszczyk.myapplication.ItemFragment.OnListFragmentInteractionListener;
-import com.kgluszczyk.myapplication.dummy.StaticContent;
-import com.kgluszczyk.myapplication.dummy.StaticContent.BazowyListItem;
-import com.kgluszczyk.myapplication.dummy.StaticContent.ListItemType;
-import com.kgluszczyk.myapplication.dummy.StaticContent.UniwersytetListItem;
-import com.kgluszczyk.myapplication.dummy.StaticContent.ZabytekItem;
+import com.kgluszczyk.myapplication.dummy.ListItemsFactory.BaseListItem;
+import com.kgluszczyk.myapplication.dummy.ListItemsFactory.Country;
+import com.kgluszczyk.myapplication.dummy.ListItemsFactory.DestinationListItem;
+import com.kgluszczyk.myapplication.dummy.ListItemsFactory.ListItemType;
 import java.io.IOException;
 import java.util.List;
 
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.BaseViewHolder> {
 
-    private final List<StaticContent.BazowyListItem> mValues;
+    private final List<BaseListItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<BazowyListItem> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<BaseListItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ListItemType.UNIWERSYTET.ordinal()) {
-            return new UniwersytetViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.uniwersytet_element, parent, false));
-        } else if (viewType == ListItemType.ZABYTEK.ordinal()) {
+        if (viewType == ListItemType.DESTINATION.ordinal()) {
+            return new DestinationViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.destination_item, parent, false));
+        } else if (viewType == ListItemType.COUNTRY.ordinal()) {
             return new ZabytekViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.zabytek_element, parent, false));
+                    .inflate(R.layout.country_item, parent, false));
         }
         return null;
     }
@@ -59,12 +59,20 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         return mValues.size();
     }
 
-    public class UniwersytetViewHolder extends BaseViewHolder {
+    private void loadWithGlide(String url, ImageView view, @DrawableRes int placeholder) {
+        GlideApp.with(view.getContext())
+                .load(url)
+                .centerCrop()
+                .placeholder(placeholder)
+                .into(view);
+    }
+
+    public class DestinationViewHolder extends BaseViewHolder {
         public final TextView title;
         public final TextView description;
         public final ImageView logo;
 
-        public UniwersytetViewHolder(View view) {
+        public DestinationViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.title);
             description = view.findViewById(R.id.description);
@@ -72,40 +80,43 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         }
 
         @Override
-        public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
+        public void bind(final BaseListItem mItem, final OnListFragmentInteractionListener mListener) {
             super.bind(mItem, mListener);
-            if (mItem instanceof UniwersytetListItem) {
-                title.setText(((UniwersytetListItem) mItem).content);
-                description.setText(((UniwersytetListItem) mItem).details);
-                logo.setImageDrawable(logo.getContext().getResources().getDrawable(((UniwersytetListItem) mItem).logo));
+            if (mItem instanceof DestinationListItem) {
+                title.setText(((DestinationListItem) mItem).content);
+                description.setText(((DestinationListItem) mItem).details);
+                loadWithGlide(((DestinationListItem) mItem).uri.toString(), logo, R.drawable.ic_place_black_24dp);
             }
         }
     }
 
     public class ZabytekViewHolder extends BaseViewHolder {
-        public final ImageView logo;
+        public final TextView country;
+        public final ImageView background;
 
         public ZabytekViewHolder(View view) {
             super(view);
-            logo = view.findViewById(R.id.zabytek_obraz);
+            country = view.findViewById(R.id.country);
+            background = view.findViewById(R.id.background);
         }
 
         @Override
-        public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
+        public void bind(final BaseListItem mItem, final OnListFragmentInteractionListener mListener) {
             super.bind(mItem, mListener);
-            if (mItem instanceof ZabytekItem) {
-                Bitmap bitmap = ((ZabytekItem) mItem).getImageBitmap();
-                if (((ZabytekItem) mItem).getUri() != null) {
+            if (mItem instanceof Country) {
+                country.setText(((Country) mItem).getCountry());
+                Bitmap bitmap = ((Country) mItem).getImageBitmap();
+                if (((Country) mItem).getUri() != null) {
                     try {
-                        bitmap = Media.getBitmap(logo.getContext().getContentResolver(), ((ZabytekItem) mItem).getUri());
+                        bitmap = Media.getBitmap(itemView.getContext().getContentResolver(), ((Country) mItem).getUri());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
                 if (bitmap != null) {
-                    logo.setImageBitmap(bitmap);
+                    background.setImageBitmap(bitmap);
                 } else {
-                    logo.setImageDrawable(logo.getContext().getResources().getDrawable(((ZabytekItem) mItem).logo));
+                    background.setImageDrawable(country.getContext().getResources().getDrawable(((Country) mItem).logo));
                 }
             }
         }
@@ -113,7 +124,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public StaticContent.BazowyListItem mItem;
+        public BaseListItem mItem;
 
         public BaseViewHolder(View view) {
             super(view);
@@ -125,7 +136,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             return super.toString() + " '" + mItem + "'";
         }
 
-        public void bind(final BazowyListItem mItem, final OnListFragmentInteractionListener mListener) {
+        public void bind(final BaseListItem mItem, final OnListFragmentInteractionListener mListener) {
             this.mItem = mItem;
             final GestureDetector gestureDetector = new GestureDetector(mView.getContext(), new SimpleOnGestureListener() {
 
