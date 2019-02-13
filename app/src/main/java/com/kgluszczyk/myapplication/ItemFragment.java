@@ -1,5 +1,6 @@
 package com.kgluszczyk.myapplication;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,21 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.google.gson.Gson;
 import com.kgluszczyk.myapplication.dummy.ListItemsFactory;
 import com.kgluszczyk.myapplication.dummy.ListItemsFactory.BaseListItem;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient.Builder;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -45,6 +42,7 @@ public class ItemFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private MyItemRecyclerViewAdapter adapter;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -98,6 +96,9 @@ public class ItemFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
+            AppDatabase db = Room.databaseBuilder(getContext(),
+                    AppDatabase.class, "database-name").build();
+
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -115,27 +116,25 @@ public class ItemFragment extends Fragment {
 
             final DestinationsService service = retrofit.create(DestinationsService.class);
 
-            service.getDestinationsSingle()
+            compositeDisposable.add(db.destinationDao().getAll()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
                         adapter = new MyItemRecyclerViewAdapter(convertResponse(response), mListener);
                         recyclerView.setAdapter(adapter);
-                    }, error -> Log.e("INTERNET", "Upse...", error));
+                        Log.d("TAG", "Odczytano elementy");
+                    }, error -> Log.e("INTERNET", "Upse...", error)));
 
-       /*    service.getDestinationsCall().enqueue(new Callback<List<Destination>>() {
-                @Override
-                public void onResponse(final Call<List<Destination>> call, final Response<List<Destination>> response) {
-                    adapter = new MyItemRecyclerViewAdapter(convertResponse(response.body()), mListener);
-                    recyclerView.setAdapter(adapter);
-                }
-
-                @Override
-                public void onFailure(final Call<List<Destination>> call, final Throwable t) {
-                    Toast.makeText(ItemFragment.this.getContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
-                }
-            });*/
-
+            compositeDisposable.add(service.getDestinationsSingle()
+                    .subscribeOn(Schedulers.io())
+                    .doOnSuccess(response -> {
+                        db.destinationDao().deleteAll();
+                        db.destinationDao().insertAll(response);
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                        Log.d("TAG", "Dodano elementy");
+                    }, error -> Log.e("INTERNET", "Upse...", error)));
         }
         return view;
     }
