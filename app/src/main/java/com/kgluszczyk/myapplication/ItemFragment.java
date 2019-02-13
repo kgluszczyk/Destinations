@@ -19,12 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class ItemFragment extends DaggerFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -33,10 +27,10 @@ public class ItemFragment extends DaggerFragment {
     DestinationsService destinationsService;
     @Inject
     DestinationDao destinationDao;
+    @Inject
+    MyItemRecyclerViewAdapter adapter;
 
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
-    private MyItemRecyclerViewAdapter adapter;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @SuppressWarnings("unused")
@@ -49,23 +43,12 @@ public class ItemFragment extends DaggerFragment {
     }
 
     public ItemFragment() {
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -76,43 +59,33 @@ public class ItemFragment extends DaggerFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            final RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-
-            compositeDisposable.add(destinationDao.getAll()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(response -> {
-                        adapter = new MyItemRecyclerViewAdapter(convertResponse(response), mListener);
-                        recyclerView.setAdapter(adapter);
-                        Log.d("TAG", "Odczytano elementy");
-                    }, error -> Log.e("INTERNET", "Upse...", error)));
-
-            compositeDisposable.add(destinationsService.getDestinationsSingle()
-                    .subscribeOn(Schedulers.io())
-                    .doOnSuccess(response -> {
-                        destinationDao.deleteAll();
-                        destinationDao.insertAll(response);
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(response -> {
-                        Log.d("TAG", "Dodano elementy");
-                    }, error -> Log.e("INTERNET", "Upse...", error)));
+        Context context = view.getContext();
+        final RecyclerView recyclerView = (RecyclerView) view;
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        return view;
-    }
+        recyclerView.setAdapter(adapter);
+        compositeDisposable.add(destinationDao.getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    adapter.updateData(convertResponse(response));
+                    Log.d("TAG", "Odczytano elementy");
+                }, error -> Log.e("INTERNET", "Upse...", error)));
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        compositeDisposable.add(destinationsService.getDestinationsSingle()
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess(response -> {
+                    destinationDao.deleteAll();
+                    destinationDao.insertAll(response);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    Log.d("TAG", "Dodano elementy");
+                }, error -> Log.e("INTERNET", "Upse...", error)));
+        return view;
     }
 
     public MyItemRecyclerViewAdapter getAdapter() {

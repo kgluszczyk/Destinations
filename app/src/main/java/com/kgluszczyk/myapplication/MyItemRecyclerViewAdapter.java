@@ -20,16 +20,23 @@ import com.kgluszczyk.myapplication.dummy.ListItemsFactory.Country;
 import com.kgluszczyk.myapplication.dummy.ListItemsFactory.DestinationListItem;
 import com.kgluszczyk.myapplication.dummy.ListItemsFactory.ListItemType;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.BaseViewHolder> {
 
-    private final List<BaseListItem> mValues;
+    private List<BaseListItem> mValues = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<BaseListItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    @Inject
+    public MyItemRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
         mListener = listener;
+    }
+
+    public void updateData(List<BaseListItem> items){
+        this.mValues = items;
+        notifyDataSetChanged();
     }
 
     @Override
