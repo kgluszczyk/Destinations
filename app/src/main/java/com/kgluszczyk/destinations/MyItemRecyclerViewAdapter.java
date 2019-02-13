@@ -39,7 +39,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             return new DestinationViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.destination_item, parent, false));
         } else if (viewType == ListItemType.COUNTRY.ordinal()) {
-            return new ZabytekViewHolder(LayoutInflater.from(parent.getContext())
+            return new CountryViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.country_item, parent, false));
         }
         return null;
@@ -96,11 +96,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         }
     }
 
-    public class ZabytekViewHolder extends BaseViewHolder {
+    public class CountryViewHolder extends BaseViewHolder {
         public final TextView country;
         public final ImageView background;
 
-        public ZabytekViewHolder(View view) {
+        public CountryViewHolder(View view) {
             super(view);
             country = view.findViewById(R.id.country);
             background = view.findViewById(R.id.background);
