@@ -1,4 +1,4 @@
-package com.kgluszczyk;
+package com.kgluszczyk.destinations;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;

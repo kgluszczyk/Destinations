@@ -91,7 +91,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             if (mItem instanceof DestinationListItem) {
                 title.setText(((DestinationListItem) mItem).content);
                 description.setText(((DestinationListItem) mItem).details);
-                loadWithGlide(((DestinationListItem) mItem).uri.toString(), logo, R.drawable.ic_place_black_24dp);
+                loadWithGlide(((DestinationListItem) mItem).uri.toString(), logo, android.R.color.darker_gray);
             }
         }
     }

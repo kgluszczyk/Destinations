@@ -1,6 +1,5 @@
 package com.kgluszczyk.destinations;
 
-import com.kgluszczyk.StorageModule;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import dagger.android.AndroidInjector;
