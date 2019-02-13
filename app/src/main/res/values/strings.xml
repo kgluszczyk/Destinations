@@ -1,9 +1,22 @@
 <resources>
-    <string name="app_name">Nysa 2019</string>
+    <string name="app_name">Destinations</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title">Lista miejsc</string>
-    <string name="wersja">Wersja: 1</string>
-    <string name="wersja_name">O Aplikacji</string>
+    <string name="version">Version: 1</string>
+    <string name="version_name">About app</string>
+    <string name="version_dsc">"&lt;b&gt;This app was created for training purposes and covers following topics:&lt;/b&gt;
+        \n* android components(intents[implicit, explict], activities, fragments, broadcast receivers, intent services),
+        \n* notifications,
+        \n* permissions,
+        \n* camera,
+        \n* gesture detector,
+        \n* daggerAndroid,
+        \n* retrofit,
+        \n* room persistence storage
+        \n* rxJava
+        \n* glide
+        \nAnd displays all the places we've already visited with my second half ;)
+    </string>
+    <string name="credits">Credits</string>
 </resources>

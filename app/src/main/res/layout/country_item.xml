@@ -13,8 +13,8 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/zabytek_1" />
+        android:scaleType="fitXY"
+        tools:src="@drawable/austria" />
 
     <TextView
         android:id="@+id/country"
@@ -23,6 +23,7 @@
         android:gravity="center"
         android:scaleType="centerCrop"
         android:textSize="32dp"
+        style="@style/MyTextViewStyle"
         android:textStyle="bold"
         tools:text="POLAND" />
 </android.support.v7.widget.CardView>

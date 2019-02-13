@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kgluszczyk.myapplication">
+    package="com.kgluszczyk.destinations">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="com.kgluszczyk.destinations.Application"
         android:allowBackup="true"
-        android:name=".Application"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeInfo">
+        android:theme="@style/AppTheme">
         <service
-            android:name=".MyIntentService"
+            android:name="com.kgluszczyk.destinations.HideNotificationIntentService"
             android:exported="false"></service>
 
-        <receiver android:name=".MyReceiver">
+        <receiver android:name="com.kgluszczyk.destinations.MyReceiver">
             <intent-filter>
-                <action android:name="com.kgluszczyk.myapplication.NOTIFICATION_CLOSER" />
+                <action android:name="com.kgluszczyk.destinations.NOTIFICATION_CLOSER" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".PokazFilmlActivity"
+            android:name="com.kgluszczyk.destinations.PokazFilmlActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".WersjaActivity"
+            android:name="com.kgluszczyk.destinations.VersionActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.kgluszczyk.destinations.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
