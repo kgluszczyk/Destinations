@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                     .setSmallIcon(R.drawable.ic_place_black_24dp)
                     .setContentTitle(uniwersytetListItem.content)
                     .setContentText(uniwersytetListItem.details)
+                    .setAutoCancel(true)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
                     .addAction(R.drawable.ic_place_black_24dp, "Odpal broadcasta",

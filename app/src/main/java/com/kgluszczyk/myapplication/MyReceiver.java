@@ -15,6 +15,6 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationManagerCompat.from(context).cancel(intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1));
+        MyIntentService.startActionBaz(context, intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1), "Test2");
     }
 }

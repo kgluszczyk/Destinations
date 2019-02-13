@@ -12,9 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeInfo">
-        <receiver
-            android:name=".MyReceiver">
+        <service
+            android:name=".MyIntentService"
+            android:exported="false"></service>
 
+        <receiver android:name=".MyReceiver">
             <intent-filter>
                 <action android:name="com.kgluszczyk.myapplication.NOTIFICATION_CLOSER" />
             </intent-filter>
@@ -22,7 +24,7 @@
 
         <activity
             android:name=".PokazFilmlActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".WersjaActivity"
             android:exported="true"
