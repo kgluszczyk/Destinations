@@ -1,12 +1,13 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.presentation;
 
-import static com.kgluszczyk.destinations.ListItemsFactory.ListItemType.COUNTRY;
-import static com.kgluszczyk.destinations.ListItemsFactory.ListItemType.DESTINATION;
+import static com.kgluszczyk.destinations.presentation.ListItemsFactory.ListItemType.COUNTRY;
+import static com.kgluszczyk.destinations.presentation.ListItemsFactory.ListItemType.DESTINATION;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import com.kgluszczyk.destinations.R;
+import com.kgluszczyk.destinations.data.Destination;
 
 public class ListItemsFactory {
 

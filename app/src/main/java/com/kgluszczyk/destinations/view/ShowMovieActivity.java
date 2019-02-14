@@ -1,4 +1,4 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.view;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -6,8 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.VideoView;
+import com.kgluszczyk.destinations.R;
 
-public class PokazFilmlActivity extends AppCompatActivity {
+public class ShowMovieActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

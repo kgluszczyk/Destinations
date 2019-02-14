@@ -1,4 +1,4 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.di.annotation.qualifiers;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,5 +1,6 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.api;
 
+import com.kgluszczyk.destinations.data.Destination;
 import io.reactivex.Single;
 import java.util.List;
 import retrofit2.http.GET;

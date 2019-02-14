@@ -1,4 +1,4 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.data;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

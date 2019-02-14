@@ -1,4 +1,4 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.view;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.kgluszczyk.destinations.R;
 
 public class VersionActivity extends AppCompatActivity {
 

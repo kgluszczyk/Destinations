@@ -1,10 +1,10 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.di.module;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import com.kgluszczyk.destinations.AppDatabase;
-import com.kgluszczyk.destinations.ApplicationContext;
-import com.kgluszczyk.destinations.DestinationDao;
+import com.kgluszczyk.destinations.di.annotation.qualifiers.ApplicationContext;
+import com.kgluszczyk.destinations.data.AppDatabase;
+import com.kgluszczyk.destinations.data.DestinationDao;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;

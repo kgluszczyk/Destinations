@@ -6,7 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class MyReceiver extends BroadcastReceiver {
+public class IntentServiceTigerBroadcastReceiver extends android.content.BroadcastReceiver {
 
     public String NOTIFICATION_CLOSER = "com.kgluszczyk.destinations.NOTIFICATION_CLOSER";
 

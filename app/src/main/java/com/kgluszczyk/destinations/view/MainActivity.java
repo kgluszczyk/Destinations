@@ -1,4 +1,4 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.view;
 
 import static android.app.Notification.EXTRA_NOTIFICATION_ID;
 
@@ -18,10 +18,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
-import com.kgluszczyk.destinations.ItemFragment.OnListFragmentInteractionListener;
-import com.kgluszczyk.destinations.ListItemsFactory.BaseListItem;
-import com.kgluszczyk.destinations.ListItemsFactory.Country;
-import com.kgluszczyk.destinations.ListItemsFactory.DestinationListItem;
+import com.kgluszczyk.destinations.IntentServiceTigerBroadcastReceiver;
+import com.kgluszczyk.destinations.R;
+import com.kgluszczyk.destinations.view.ItemFragment.OnListFragmentInteractionListener;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.Country;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.DestinationListItem;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity implements OnListFragmentInteractionListener {
@@ -103,13 +105,13 @@ public class MainActivity extends DaggerAppCompatActivity implements OnListFragm
         if (item instanceof DestinationListItem) {
             DestinationListItem destinationListItem = (DestinationListItem) item;
 
-            Intent snoozeIntent = new Intent(this, MyReceiver.class);
+            Intent snoozeIntent = new Intent(this, IntentServiceTigerBroadcastReceiver.class);
             snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, NOTIFICATION_ID);
 
             PendingIntent snoozePendingIntent =
                     PendingIntent.getBroadcast(this, 0, snoozeIntent, 0);
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, PokazFilmlActivity.class), 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, ShowMovieActivity.class), 0);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_place_black_24dp)
@@ -120,7 +122,6 @@ public class MainActivity extends DaggerAppCompatActivity implements OnListFragm
                     .setContentIntent(pendingIntent)
                     .addAction(R.drawable.ic_place_black_24dp, "Trigger broadcast",
                             snoozePendingIntent);
-
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         }

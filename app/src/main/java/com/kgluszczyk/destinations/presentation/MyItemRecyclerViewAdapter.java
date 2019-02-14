@@ -1,4 +1,4 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.presentation;
 
 import android.graphics.Bitmap;
 import android.provider.MediaStore.Images.Media;
@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.kgluszczyk.destinations.ItemFragment.OnListFragmentInteractionListener;
-import com.kgluszczyk.destinations.ListItemsFactory.BaseListItem;
-import com.kgluszczyk.destinations.ListItemsFactory.Country;
-import com.kgluszczyk.destinations.ListItemsFactory.DestinationListItem;
-import com.kgluszczyk.destinations.ListItemsFactory.ListItemType;
+import com.kgluszczyk.destinations.GlideApp;
+import com.kgluszczyk.destinations.R;
+import com.kgluszczyk.destinations.view.ItemFragment.OnListFragmentInteractionListener;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.Country;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.DestinationListItem;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory. ListItemType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,11 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.di;
 
+import com.kgluszczyk.destinations.di.module.AppModule;
+import com.kgluszczyk.destinations.Application;
+import com.kgluszczyk.destinations.di.module.GsonModule;
+import com.kgluszczyk.destinations.di.module.StorageModule;
+import com.kgluszczyk.destinations.di.module.ApiModule;
+import com.kgluszczyk.destinations.di.module.BuildersModule;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import dagger.android.AndroidInjector;

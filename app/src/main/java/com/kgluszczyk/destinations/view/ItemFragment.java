@@ -1,4 +1,4 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,13 +9,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.kgluszczyk.destinations.ListItemsFactory.BaseListItem;
+import com.kgluszczyk.destinations.R;
+import com.kgluszczyk.destinations.api.DestinationsService;
+import com.kgluszczyk.destinations.data.Destination;
+import com.kgluszczyk.destinations.data.DestinationDao;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
+import com.kgluszczyk.destinations.presentation.MyItemRecyclerViewAdapter;
 import dagger.android.support.DaggerFragment;
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 public class ItemFragment extends DaggerFragment {
@@ -66,25 +74,40 @@ public class ItemFragment extends DaggerFragment {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
         recyclerView.setAdapter(adapter);
-        compositeDisposable.add(destinationDao.getAll()
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        compositeDisposable.add(destinationDao.getAllRx()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     adapter.updateData(convertResponse(response));
-                    Log.d("TAG", "Odczytano elementy");
-                }, error -> Log.e("INTERNET", "Upse...", error)));
+                    Log.d("RX", "From DB: " + response);
+                }, error -> Log.e("RX", "Ups...", error)));
 
-        compositeDisposable.add(destinationsService.getDestinationsSingle()
-                .subscribeOn(Schedulers.io())
-                .doOnSuccess(response -> {
-                    destinationDao.deleteAll();
-                    destinationDao.insertAll(response);
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    Log.d("TAG", "Dodano elementy");
-                }, error -> Log.e("INTERNET", "Upse...", error)));
-        return view;
+        compositeDisposable.add(
+                Flowable.interval(30, TimeUnit.SECONDS)
+                        .startWith(Long.valueOf(0))
+                        .doOnNext(timer -> Log.d("RX", "Timer" + timer))
+                        .flatMap(__ -> destinationsService.getDestinationsSingle().toFlowable())
+                        .subscribeOn(Schedulers.io())
+                        .doOnNext(response -> {
+                            Log.d("RX", "Insert and replace to db:" + response);
+
+                            destinationDao.replaceAll(response);
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(response -> Log.d("RX", "DB updated"), error -> Log.e("RX", "Ups...", error)));
+    }
+
+    @Override
+    public void onStop() {
+        compositeDisposable.clear();
+        super.onStop();
     }
 
     public MyItemRecyclerViewAdapter getAdapter() {

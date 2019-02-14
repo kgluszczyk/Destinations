@@ -1,7 +1,8 @@
-package com.kgluszczyk.destinations;
+package com.kgluszczyk.destinations.di.module;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kgluszczyk.destinations.api.DestinationsService;
 import dagger.Module;
 import dagger.Provides;
 import java.util.concurrent.TimeUnit;

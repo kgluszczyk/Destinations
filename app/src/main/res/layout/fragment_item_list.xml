@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".ItemFragment"
+    tools:context=".view.ItemFragment"
     tools:listitem="@layout/country_item" />

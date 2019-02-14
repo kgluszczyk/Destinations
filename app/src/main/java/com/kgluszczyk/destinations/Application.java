@@ -1,5 +1,7 @@
 package com.kgluszczyk.destinations;
 
+import com.kgluszczyk.destinations.di.AppComponent;
+import com.kgluszczyk.destinations.di.DaggerAppComponent;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 
