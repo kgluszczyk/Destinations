@@ -1,8 +1,8 @@
 package com.kgluszczyk.destinations.di.module;
 
-import com.kgluszczyk.destinations.view.ItemFragment;
-import com.kgluszczyk.destinations.view.ItemFragment.OnListFragmentInteractionListener;
 import com.kgluszczyk.destinations.di.annotation.scope.FragmentScope;
+import com.kgluszczyk.destinations.view.DestinationsFragment;
+import com.kgluszczyk.destinations.view.DestinationsFragment.OnListFragmentInteractionListener;
 import com.kgluszczyk.destinations.view.MainActivity;
 import dagger.Binds;
 import dagger.Module;
@@ -15,6 +15,6 @@ public abstract class MainActivityModule {
     public abstract OnListFragmentInteractionListener provideOnListFragmentInteractionListener(MainActivity activity);
 
     @FragmentScope
-    @ContributesAndroidInjector
-    abstract ItemFragment contributeItemFragment();
+    @ContributesAndroidInjector(modules = DestinationsFragmentModule.class)
+    abstract DestinationsFragment contributeItemFragment();
 }

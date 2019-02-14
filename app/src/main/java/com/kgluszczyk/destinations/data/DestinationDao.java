@@ -17,11 +17,13 @@ public abstract class DestinationDao {
     public abstract List<Destination> getAll();
 
     @Transaction
-    public void replaceAll(List<Destination> destinations) {
+    public boolean replaceAll(List<Destination> destinations) {
         if (!getAll().equals(destinations)) {
             deleteAll();
             insertAll(destinations);
+            return true;
         }
+        return false;
     }
 
     @Query("DELETE FROM destination")

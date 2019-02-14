@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.kgluszczyk.destinations.GlideApp;
 import com.kgluszczyk.destinations.R;
-import com.kgluszczyk.destinations.view.ItemFragment.OnListFragmentInteractionListener;
+import com.kgluszczyk.destinations.view.DestinationsFragment.OnListFragmentInteractionListener;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.Country;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.DestinationListItem;

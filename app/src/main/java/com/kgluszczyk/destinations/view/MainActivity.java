@@ -20,10 +20,10 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import com.kgluszczyk.destinations.IntentServiceTigerBroadcastReceiver;
 import com.kgluszczyk.destinations.R;
-import com.kgluszczyk.destinations.view.ItemFragment.OnListFragmentInteractionListener;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.Country;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.DestinationListItem;
+import com.kgluszczyk.destinations.view.DestinationsFragment.OnListFragmentInteractionListener;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity implements OnListFragmentInteractionListener {
@@ -34,7 +34,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnListFragm
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     private static final String CHANNEL_ID = "TravelChannel";
     public static final int NOTIFICATION_ID = 0;
-    ItemFragment fragment;
+    DestinationsFragment fragment;
     private Country itemSelectedPhoto;
 
     @Override
@@ -42,15 +42,17 @@ public class MainActivity extends DaggerAppCompatActivity implements OnListFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragment = ItemFragment.newInstance(1);
+        fragment = DestinationsFragment.newInstance(1);
         createNotificationChannel();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-                        android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                .replace(R.id.lista_kontener, fragment)
-                .commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                            android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                    .replace(R.id.lista_kontener, fragment)
+                    .commit();
 
+        }
         findViewById(R.id.wersja).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, VersionActivity.class);
             startActivity(intent);
