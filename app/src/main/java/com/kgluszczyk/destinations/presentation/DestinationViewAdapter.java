@@ -1,5 +1,6 @@
 package com.kgluszczyk.destinations.presentation;
 
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.provider.MediaStore.Images.Media;
 import android.support.annotation.DrawableRes;
@@ -9,40 +10,38 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.kgluszczyk.destinations.GlideApp;
-import com.kgluszczyk.destinations.R;
-import com.kgluszczyk.destinations.view.DestinationsFragment.OnListFragmentInteractionListener;
+import com.kgluszczyk.destinations.databinding.CountryItemBinding;
+import com.kgluszczyk.destinations.databinding.DestinationItemBinding;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.Country;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.DestinationListItem;
-import com.kgluszczyk.destinations.presentation.ListItemsFactory. ListItemType;
+import com.kgluszczyk.destinations.presentation.ListItemsFactory.ListItemType;
+import com.kgluszczyk.destinations.view.DestinationsFragment.OnListFragmentInteractionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.BaseViewHolder> {
+public class DestinationViewAdapter extends RecyclerView.Adapter<DestinationViewAdapter.BaseViewHolder> {
 
     private List<BaseListItem> mValues = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
 
     @Inject
-    public MyItemRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    public DestinationViewAdapter(OnListFragmentInteractionListener listener) {
         mListener = listener;
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ListItemType.DESTINATION.ordinal()) {
-            return new DestinationViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.destination_item, parent, false));
+            return new DestinationViewHolder(DestinationItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         } else if (viewType == ListItemType.COUNTRY.ordinal()) {
-            return new CountryViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.country_item, parent, false));
+            return new CountryViewHolder(CountryItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         }
         return null;
     }
@@ -78,13 +77,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public class DestinationViewHolder extends BaseViewHolder {
         public final TextView title;
         public final TextView description;
-        public final ImageView logo;
+        final ImageView logo;
 
-        public DestinationViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.title);
-            description = view.findViewById(R.id.description);
-            logo = view.findViewById(R.id.logo);
+        DestinationViewHolder(DestinationItemBinding binding) {
+            super(binding);
+            title = binding.title;
+            description = binding.description;
+            logo = binding.logo;
         }
 
         @Override
@@ -100,12 +99,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class CountryViewHolder extends BaseViewHolder {
         public final TextView country;
-        public final ImageView background;
+        final ImageView background;
 
-        public CountryViewHolder(View view) {
-            super(view);
-            country = view.findViewById(R.id.country);
-            background = view.findViewById(R.id.background);
+        CountryViewHolder(CountryItemBinding binding) {
+            super(binding);
+            country = binding.country;
+            background = binding.background;
         }
 
         @Override
@@ -131,12 +130,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public BaseListItem mItem;
+        public final ViewDataBinding binding;
+        BaseListItem mItem;
 
-        public BaseViewHolder(View view) {
-            super(view);
-            mView = view;
+        BaseViewHolder(ViewDataBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         @Override
@@ -146,7 +145,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         public void bind(final BaseListItem mItem, final OnListFragmentInteractionListener mListener) {
             this.mItem = mItem;
-            final GestureDetector gestureDetector = new GestureDetector(mView.getContext(), new SimpleOnGestureListener() {
+            final GestureDetector gestureDetector = new GestureDetector(binding.getRoot().getContext(), new SimpleOnGestureListener() {
 
                 @Override
                 public boolean onDown(MotionEvent event) {
@@ -177,7 +176,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                     return true;
                 }
             });
-            mView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
+            binding.getRoot().setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
         }
     }
 }

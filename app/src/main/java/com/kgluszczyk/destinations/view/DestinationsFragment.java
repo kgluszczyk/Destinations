@@ -1,6 +1,7 @@
 package com.kgluszczyk.destinations.view;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,9 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kgluszczyk.destinations.R;
+import com.kgluszczyk.destinations.databinding.FragmentItemListBinding;
+import com.kgluszczyk.destinations.presentation.DestinationViewAdapter;
 import com.kgluszczyk.destinations.presentation.DestinationsViewModel;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
-import com.kgluszczyk.destinations.presentation.MyItemRecyclerViewAdapter;
 import dagger.android.support.DaggerFragment;
 import javax.inject.Inject;
 
@@ -21,7 +23,7 @@ public class DestinationsFragment extends DaggerFragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
 
     @Inject
-    MyItemRecyclerViewAdapter adapter;
+    DestinationViewAdapter adapter;
 
     @Inject
     DestinationsViewModel destinationsViewModel;
@@ -52,8 +54,8 @@ public class DestinationsFragment extends DaggerFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
+        FragmentItemListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_list, container, false);
+        View view = binding.getRoot();
         Context context = view.getContext();
         final RecyclerView recyclerView = (RecyclerView) view;
         if (mColumnCount <= 1) {
@@ -66,7 +68,7 @@ public class DestinationsFragment extends DaggerFragment {
         return view;
     }
 
-    public MyItemRecyclerViewAdapter getAdapter() {
+    public DestinationViewAdapter getAdapter() {
         return adapter;
     }
 
