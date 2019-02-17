@@ -2,7 +2,6 @@ package com.kgluszczyk.destinations.di.module;
 
 import android.arch.lifecycle.ViewModelProviders;
 import com.kgluszczyk.destinations.di.annotation.scope.FragmentScope;
-import com.kgluszczyk.destinations.domain.DestinationsInteractor;
 import com.kgluszczyk.destinations.presentation.DestinationsViewModel;
 import com.kgluszczyk.destinations.view.DestinationsFragment;
 import dagger.Module;
