@@ -6,10 +6,9 @@
     android:layout_height="@dimen/item_size"
     android:layout_marginBottom="@dimen/text_margin"
     android:layout_marginTop="@dimen/text_margin"
-    android:orientation="horizontal"
     app:cardBackgroundColor="@android:color/darker_gray"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="8dp">
+    app:cardCornerRadius="@dimen/cardCornerRadius"
+    app:cardElevation="@dimen/cardElevation">
 
     <ImageView
         android:id="@+id/logo"
@@ -31,7 +30,6 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/header"
             android:textStyle="bold"
-
             tools:text="Title" />
 
         <TextView
@@ -39,7 +37,7 @@
             style="@style/MyTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
+            android:ellipsize="end"
             android:maxLines="3"
             tools:text="Description" />
     </LinearLayout>

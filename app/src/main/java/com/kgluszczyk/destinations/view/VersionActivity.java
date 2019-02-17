@@ -1,5 +1,6 @@
 package com.kgluszczyk.destinations.view;
 
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,9 @@ import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.kgluszczyk.destinations.R;
+import com.kgluszczyk.destinations.databinding.ActivityVersionBinding;
 
 public class VersionActivity extends AppCompatActivity {
 
@@ -35,12 +36,12 @@ public class VersionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wersja);
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        final ActivityVersionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_version);
+        Toolbar myToolbar = binding.myToolbar;
         myToolbar.setTitle(getResources().getString(R.string.version_name));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((TextView) findViewById(R.id.aboutApp)).setText(fromHtml(getString(R.string.version_dsc)));
+        binding.aboutApp.setText(fromHtml(getString(R.string.version_dsc)));
     }
 
     @Override

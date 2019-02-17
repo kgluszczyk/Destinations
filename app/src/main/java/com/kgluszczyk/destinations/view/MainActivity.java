@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import com.kgluszczyk.destinations.IntentServiceTigerBroadcastReceiver;
 import com.kgluszczyk.destinations.R;
+import com.kgluszczyk.destinations.databinding.ActivityMainBinding;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.Country;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.DestinationListItem;
@@ -41,7 +43,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnListFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         fragment = DestinationsFragment.newInstance(1);
         createNotificationChannel();
         if (savedInstanceState == null) {
@@ -49,11 +51,11 @@ public class MainActivity extends DaggerAppCompatActivity implements OnListFragm
                     .beginTransaction()
                     .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
                             android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                    .replace(R.id.lista_kontener, fragment)
+                    .replace(R.id.list_container, fragment)
                     .commit();
 
         }
-        findViewById(R.id.wersja).setOnClickListener(v -> {
+        binding.version.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, VersionActivity.class);
             startActivity(intent);
         });

@@ -8,6 +8,7 @@
     <string name="version_dsc">"&lt;b&gt;This app was created for training purposes and covers following topics:&lt;/b&gt;
         \n* android components(intents[implicit, explict], activities, fragments, broadcast receivers, intent services),
         \n* notifications,
+        \n* data binding,
         \n* permissions,
         \n* camera,
         \n* gesture detector,
@@ -16,7 +17,8 @@
         \n* room persistence storage
         \n* rxJava
         \n* glide
-        \nAnd displays all the places we've already visited with my second half ;)
+        \n and displays all the places we've already visited with my second half ;)
+        \n Note: All Pictures shown are for illustration purpose only and are not used to benefit from them.
     </string>
     <string name="credits">Credits</string>
 </resources>
