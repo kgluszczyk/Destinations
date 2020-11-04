@@ -157,7 +157,8 @@ public class DestinationViewAdapter extends RecyclerView.Adapter<DestinationView
                 public boolean onSingleTapConfirmed(MotionEvent e) {
                     Log.i("TAG", "onSingleTapConfirmed: ");
                     if (mListener != null) {
-                        mListener.onListFragmentInteraction(mItem);
+                        //Commented out due to play store policy requirement for CAMERA permission
+                        //mListener.onListFragmentInteraction(mItem);
                     }
                     return true;
                 }

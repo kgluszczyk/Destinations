@@ -4,12 +4,12 @@ android {
     dataBinding {
         enabled = true
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.kgluszczyk.destinations"
-        minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 1
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

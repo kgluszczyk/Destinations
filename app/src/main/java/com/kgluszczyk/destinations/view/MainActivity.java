@@ -153,7 +153,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnListFragm
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CONTACTS)) {
+                    Manifest.permission.CAMERA)) {
             } else {
                 ActivityCompat.requestPermissions(this,
                         new String[]{permission.CAMERA},
