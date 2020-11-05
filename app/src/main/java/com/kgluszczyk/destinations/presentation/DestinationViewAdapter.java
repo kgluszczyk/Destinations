@@ -1,10 +1,7 @@
 package com.kgluszczyk.destinations.presentation;
 
-import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.provider.MediaStore.Images.Media;
-import android.support.annotation.DrawableRes;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -13,6 +10,9 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.DrawableRes;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.RecyclerView;
 import com.kgluszczyk.destinations.GlideApp;
 import com.kgluszczyk.destinations.databinding.CountryItemBinding;
 import com.kgluszczyk.destinations.databinding.DestinationItemBinding;

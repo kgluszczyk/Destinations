@@ -1,13 +1,13 @@
 package com.kgluszczyk.destinations.di.module;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider.Factory;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import com.kgluszczyk.destinations.domain.DestinationsInteractor;
 import com.kgluszczyk.destinations.presentation.DestinationsViewModel;
 import javax.inject.Inject;
 
-class DestinationsViewModelFactory implements Factory {
+class DestinationsViewModelFactory implements ViewModelProvider.Factory {
 
     @Inject
     DestinationsInteractor destinationsInteractor;

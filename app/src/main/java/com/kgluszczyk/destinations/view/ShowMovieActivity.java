@@ -1,10 +1,10 @@
 package com.kgluszczyk.destinations.view;
 
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.VideoView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import com.kgluszczyk.destinations.R;
 import com.kgluszczyk.destinations.databinding.ActivityShowMovieBinding;
 

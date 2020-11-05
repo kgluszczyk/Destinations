@@ -21,4 +21,8 @@
         \n Note: All Pictures shown are for illustration purpose only and are not used to benefit from them.
     </string>
     <string name="credits">Credits</string>
+    <string name="title_counter">Destinations counter</string>
+    <string name="title_activity_counter">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

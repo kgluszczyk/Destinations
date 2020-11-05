@@ -1,6 +1,6 @@
 package com.kgluszczyk.destinations.di.module;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import com.kgluszczyk.destinations.di.annotation.scope.FragmentScope;
 import com.kgluszczyk.destinations.presentation.DestinationsViewModel;
 import com.kgluszczyk.destinations.view.DestinationsFragment;
@@ -13,6 +13,6 @@ public class DestinationsFragmentModule {
     @Provides
     @FragmentScope
     DestinationsViewModel provideDestinationsViewModel(DestinationsFragment fragment, DestinationsViewModelFactory factory) {
-        return ViewModelProviders.of(fragment, factory).get(DestinationsViewModel.class);
+        return new ViewModelProvider(fragment, factory).get(DestinationsViewModel.class);
     }
 }

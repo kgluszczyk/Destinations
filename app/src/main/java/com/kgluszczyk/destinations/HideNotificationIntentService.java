@@ -3,7 +3,7 @@ package com.kgluszczyk.destinations;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 public class HideNotificationIntentService extends IntentService {
     private static final String HIDE_NOTIFICATION = "com.kgluszczyk.destinations.action.hide_notification";

@@ -5,7 +5,7 @@ import static com.kgluszczyk.destinations.presentation.ListItemsFactory.ListItem
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import com.kgluszczyk.destinations.R;
 import com.kgluszczyk.destinations.data.Destination;
 

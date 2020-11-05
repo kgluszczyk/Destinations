@@ -1,9 +1,9 @@
 package com.kgluszczyk.destinations.presentation;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.util.Log;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import com.kgluszczyk.destinations.data.Destination;
 import com.kgluszczyk.destinations.domain.DestinationsInteractor;
 import com.kgluszczyk.destinations.presentation.ListItemsFactory.BaseListItem;
